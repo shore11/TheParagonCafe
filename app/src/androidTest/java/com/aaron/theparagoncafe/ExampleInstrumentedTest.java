@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  *
+ * HELLO WORLD! THIS IS A TEST FOR GIT-Jared edit i dont like this edit.
  * GOODBYE WORLD! THIS IS A TEST FOR GIT-Jared edit.
  */
 @RunWith(AndroidJUnit4.class)
