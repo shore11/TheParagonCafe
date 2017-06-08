@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
         String tag = "sendMessage";
 
 
-        Intent intent = new Intent(this, MenuActivity.class);
+        //Intent intent = new Intent(this, MenuActivity.class);
 
-        startActivity(intent);
+        //startActivity(intent);
         // Do something in response to button
     }
 
