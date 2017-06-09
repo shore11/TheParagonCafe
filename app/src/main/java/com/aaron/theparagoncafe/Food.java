@@ -9,7 +9,8 @@ package com.aaron.theparagoncafe;
 public class Food {
     private String name;
     private String description;
-    private float price;
+    private float singlePrice;
+    private float comboPrice;
     private String time;
     private boolean special;
     private Day day;
@@ -21,9 +22,9 @@ public class Food {
         day = Day.Everyday;
     }
 
-    public Food(String name, float price) {
+    public Food(String name, float singlePrice) {
         this.name = name;
-        this.price = price;
+        this.singlePrice = singlePrice;
         special = false;
         day = Day.Everyday;
     }
@@ -35,10 +36,10 @@ public class Food {
         day = Day.Everyday;
     }
 
-    public Food(String name, String description, float price, String time, boolean special, Day day) {
+    public Food(String name, String description, float singlePrice, float comboPrice, String time, boolean special, Day day) {
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.singlePrice = singlePrice;
         this.time = time;
         this.special = special;
         this.day = day;
@@ -61,12 +62,20 @@ public class Food {
         this.description = description;
     }
 
-    public float getPrice() {
-        return price;
+    public float getSinglePrice() {
+        return singlePrice;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public void setSinglePrice(float singlePrice) {
+        this.singlePrice = singlePrice;
+    }
+
+    public float getComboPrice() {
+        return comboPrice;
+    }
+
+    public void setComboPrice(float comboPrice) {
+        this.comboPrice = comboPrice;
     }
 
     public String getTime() {
