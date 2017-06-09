@@ -18,11 +18,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
 
-
-
-        String tag = "sendMessage";
-
-
         Intent intent = new Intent(this, MenuActivity.class);
 
         startActivity(intent);
