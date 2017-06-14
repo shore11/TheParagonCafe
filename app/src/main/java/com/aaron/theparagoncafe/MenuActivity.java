@@ -30,7 +30,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         // this gets the root node of the database
-        mDatabaseRefrence = mFirebaseDatabase.getReference();
+       // mDatabaseRefrence = mFirebaseDatabase.getReference();
         // if you want access to a specific node
         // string cheesbuger = mDatabaseRefrence.getReference().child("keyofchild")
         // to go farther down the tree  child().child().child()
@@ -53,7 +53,7 @@ public class MenuActivity extends AppCompatActivity {
         listview.setAdapter(adapter);
 
         // when things change in the data base these functions handle that
-        mChildEventListener = new ChildEventListener() {
+     /*  mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -79,6 +79,6 @@ public class MenuActivity extends AppCompatActivity {
 
             }
         };
-        mDatabaseRefrence.addChildEventListener(mChildEventListener);
+        mDatabaseRefrence.addChildEventListener(mChildEventListener);*/
     }
 }
