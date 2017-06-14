@@ -18,9 +18,7 @@ import java.util.ArrayList;
 public class MenuActivity extends AppCompatActivity {
 
     // variable to access items in the database
-    private DatabaseReference mDatabaseRefrence;
-    // gets a reference to the specific database as a whole
-    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabase;
     // when items in the database change this can update the fields
     private ChildEventListener mChildEventListener;
 
@@ -30,7 +28,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         // this gets the root node of the database
-       // mDatabaseRefrence = mFirebaseDatabase.getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         // if you want access to a specific node
         // string cheesbuger = mDatabaseRefrence.getReference().child("keyofchild")
         // to go farther down the tree  child().child().child()
@@ -53,7 +51,7 @@ public class MenuActivity extends AppCompatActivity {
         listview.setAdapter(adapter);
 
         // when things change in the data base these functions handle that
-     /*  mChildEventListener = new ChildEventListener() {
+        mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -61,6 +59,11 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so displayed the changed comment.
+                //Comment newComment = dataSnapshot.getValue(Comment.class);
+                //String commentKey = dataSnapshot.getKey();
 
             }
 
@@ -79,6 +82,6 @@ public class MenuActivity extends AppCompatActivity {
 
             }
         };
-        mDatabaseRefrence.addChildEventListener(mChildEventListener);*/
+        mDatabase.addChildEventListener(mChildEventListener);
     }
 }
