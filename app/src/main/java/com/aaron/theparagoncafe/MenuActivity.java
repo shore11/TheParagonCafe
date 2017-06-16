@@ -1,10 +1,8 @@
 package com.aaron.theparagoncafe;
 
-import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,8 +12,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import static com.aaron.theparagoncafe.R.id.parent;
 
 
 public class MenuActivity extends AppCompatActivity {
@@ -37,53 +38,35 @@ public class MenuActivity extends AppCompatActivity {
         // to go farther down the tree  child().child().child()
 
 
-        String[] values = new String[] { "Soup", "Meat", "Crackers"};
+        String[] values = new String[] { "Soup", "Meat", "Crackers", "Ramen"};
 
         final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                values);
+        //for (int i = 0; i < values.length; ++i) {
+        //    list.add(values[i]);
+        //}
 
         ListView listview = (ListView) findViewById(R.id.foodList);
 
-        listview.setAdapter(adapter);
-
-        // when things change in the data base these functions handle that
-        mChildEventListener = new ChildEventListener() {
+        Food food = new Food("Turkey");
+        list.add(food.getName());
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-                //Comment newComment = dataSnapshot.getValue(Comment.class);
-                //String commentKey = dataSnapshot.getKey();
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                   // Food food = ds.getValue(Food.class);
+                    Food food = new Food("Ham");
+                    list.add(food.getName());
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        };
-        mDatabase.addChildEventListener(mChildEventListener);
+        });
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                list);
+        listview.setAdapter(adapter);
     }
 }
