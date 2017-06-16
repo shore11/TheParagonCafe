@@ -37,7 +37,7 @@ public class MenuActivity extends AppCompatActivity {
         // to go farther down the tree  child().child().child()
 
 
-        String[] values = new String[] { "Soup", "Meat", "Crackers", "Ramen"};
+        String[] values = new String[] { "Soup", "Meat", "Crackers"};
 
         final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < values.length; ++i) {
