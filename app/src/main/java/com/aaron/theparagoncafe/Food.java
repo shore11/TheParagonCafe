@@ -7,15 +7,19 @@ package com.aaron.theparagoncafe;
  */
 
 public class Food {
-    private String name;
-    private String description;
-    private float singlePrice;
     private float comboPrice;
-    private String time;
-    private boolean special;
     private Day day;
+    private String description;
+    private String name;
+    private float singlePrice;
+    private boolean special;
+    private String time;
+
 
     // Constructors
+    // default required for dataSnapshot
+    private Food(){ }
+
     public Food(String name) {
         this.name = name;
         special = false;
@@ -40,6 +44,7 @@ public class Food {
         this.name = name;
         this.description = description;
         this.singlePrice = singlePrice;
+        this.comboPrice = comboPrice;
         this.time = time;
         this.special = special;
         this.day = day;
