@@ -1,8 +1,12 @@
 package com.aaron.theparagoncafe;
 
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +34,8 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+
 
         // this gets the root node of the database
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -68,5 +74,17 @@ public class MenuActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 list);
         listview.setAdapter(adapter);
+
+
+        //This opens the food's information when you click on it
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                startActivity(new Intent(MenuActivity.this, FoodActivity.class));
+            }
+        });
     }
+
+
 }
