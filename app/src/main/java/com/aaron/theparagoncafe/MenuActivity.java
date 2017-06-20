@@ -31,10 +31,6 @@ public class MenuActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     // when items in the database change this can update the fields
     private ChildEventListener mChildEventListener;
-    private String course;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +43,6 @@ public class MenuActivity extends AppCompatActivity {
         //list to hold Food as objects
         final List<Food> foodList = new ArrayList<>();
 
-
         ListView listview = (ListView) findViewById(R.id.foodList);
 
         // had to be made before putting items into list
@@ -55,30 +50,50 @@ public class MenuActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 list);
 
+        list.add("SPECIALS");
+        // ADD MONDAY SPECIALS
+        DatabaseReference monday = database.getReference("specials/Monday");
+        getSpecials(monday, list, adapter, "MONDAY", 0);
+
+        // ADD TUESDAY SPECIALS
+        DatabaseReference tuesday = database.getReference("specials/Tuesday");
+        getSpecials(tuesday, list, adapter, "TUESDAY", 100);
+
+        // ADD WEDNESDAY SPECIALS
+        DatabaseReference wednesday = database.getReference("specials/Wednesday");
+        getSpecials(wednesday, list, adapter, "WEDNESDAY", 1000);
+
+        // ADD THURSDAY SPECIALS
+        DatabaseReference thursday = database.getReference("specials/Thursday");
+        getSpecials(thursday, list, adapter, "THURSDAY", 100);
+
+        //ADD FRIDAY SPECIALS
+        DatabaseReference friday = database.getReference("specials/Friday");
+        getSpecials(friday, list, adapter, "FRIDAY", 100);
+
+        // ADD SATURDAY SPECIALS
+        DatabaseReference saturday = database.getReference("specials/Saturday");
+        getSpecials(saturday, list, adapter, "SATURDAY", 100);
+
         // ADD BREAKFAST ITEMS TO LIST
         DatabaseReference breakFast = database.getReference("regularFood/breakFast");
-        course = "BREAKFAST";
-        getDatabaseInfo(breakFast, list, adapter, course);
+        getDatabaseInfo(breakFast, list, adapter, "BREAKFAST", 0);
 
         // ADD SIDES TO LIST
         DatabaseReference bSides = database.getReference("regularFood/breakFast/sides");
-        course = "BREAKFAST SIDES";
-        getDatabaseInfo(bSides, list, adapter, course);
+        getDatabaseInfo(bSides, list, adapter, "BREAKFAST SIDES", 1000);
 
         // ADD DINNER TO LIST
         DatabaseReference dinner = database.getReference("regularFood/dinner");
-        course = "DINNER";
-        getDatabaseInfo(dinner, list, adapter, course);
+        getDatabaseInfo(dinner, list, adapter, "DINNER", 100);
 
         // ADD SANDWICHES TO LIST
         DatabaseReference sandwiches = database.getReference("regularFood/dinner/Sandwiches");
-        course = "SANDWICHES";
-        getDatabaseInfo(sandwiches, list, adapter, course);
+        getDatabaseInfo(sandwiches, list, adapter, "SANDWICHES", 100);
 
         // ADD DINNER SIDES
         DatabaseReference dSides = database.getReference("regularFood/dinner/sides");
-        course = "DINNER SIDES";
-        getDatabaseInfo(dSides, list, adapter, course);
+        getDatabaseInfo(dSides, list, adapter, "DINNER SIDES", 100);
 
         listview.setAdapter(adapter);
 
@@ -92,9 +107,34 @@ public class MenuActivity extends AppCompatActivity {
         });
     }
 
+    // function to get the specials
+    void getSpecials (DatabaseReference dr, final List<String> list, final ArrayAdapter adapter, final String header, int wait){
+        try {
+            Thread.sleep(wait);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        dr.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                list.add(header);
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    String type = ds.getKey();
+                    list.add(type);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
     // function to handle retrieving database from any node
-    public void getDatabaseInfo(DatabaseReference dr, final List<String> list, final ArrayAdapter adapter, final String first) {
-        Log.d("This method was called", "This method was called");
+    void getDatabaseInfo(DatabaseReference dr, final List<String> list, final ArrayAdapter adapter, final String first, int wait) {
+        try {
+            Thread.sleep(wait);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         dr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
