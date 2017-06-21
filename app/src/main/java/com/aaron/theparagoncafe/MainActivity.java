@@ -12,11 +12,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MainActivity", "Main Activity started");
         setContentView(R.layout.activity_main);
     }
 
 
     public void sendMessage(View view) {
+        Log.d("MainActivity", "Starting next activity");
 
         Intent intent = new Intent(this, MenuActivity.class);
 

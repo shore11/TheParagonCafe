@@ -34,6 +34,7 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MenuActivity", "Menu Activity started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
@@ -52,6 +53,7 @@ public class MenuActivity extends AppCompatActivity {
 
         list.add("SPECIALS");
         // ADD MONDAY SPECIALS
+        Log.d("MenuActivity", "Starting pull from firebase");
         DatabaseReference monday = database.getReference("specials/Monday");
         getSpecials(monday, list, adapter, "MONDAY", 0);
 
@@ -94,6 +96,8 @@ public class MenuActivity extends AppCompatActivity {
         // ADD DINNER SIDES
         DatabaseReference dSides = database.getReference("regularFood/dinner/sides");
         getDatabaseInfo(dSides, list, adapter, "DINNER SIDES", 100);
+
+        Log.d("MenuActivity", "Ended pull from firebase");
 
         listview.setAdapter(adapter);
 
