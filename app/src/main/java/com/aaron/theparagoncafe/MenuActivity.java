@@ -27,6 +27,9 @@ import static com.aaron.theparagoncafe.R.id.parent;
 
 public class MenuActivity extends AppCompatActivity {
 
+    //TAG CONSTANT
+    private static final String TAG = "MenuActivity";
+
     // variable to access items in the database
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     // when items in the database change this can update the fields
@@ -44,7 +47,7 @@ public class MenuActivity extends AppCompatActivity {
         //list to hold Food as objects
         final List<Food> foodList = new ArrayList<>();
 
-        ListView listview = (ListView) findViewById(R.id.foodList);
+        final ListView listview = (ListView) findViewById(R.id.foodList);
 
         // had to be made before putting items into list
         final ArrayAdapter adapter = new ArrayAdapter<String>(this,
@@ -106,7 +109,13 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(new Intent(MenuActivity.this, FoodActivity.class));
+                String selectedFromList = (String) (listview.getItemAtPosition(position));
+                Log.d(TAG, "making new intent for FoodActivity");
+                Intent intent = new Intent(MenuActivity.this, FoodActivity.class);
+                Log.d(TAG, "intent for FoodActivity created, attempting to apply putExtra");
+                intent.putExtra("EXTRA_SELECTED_ITEM", selectedFromList);
+                Log.d(TAG, "putExtra: " +selectedFromList + " applied, attempting to start FoodActivity");
+                startActivity(intent);
             }
         });
     }
