@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void sendMessage(View view) {
+    public void startMenu(View view) {
         Log.d("MainActivity", "Starting next activity");
 
         Intent intent = new Intent(this, MenuActivity.class);

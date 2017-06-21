@@ -14,17 +14,17 @@
         android:id="@+id/button2"
         android:layout_width="242dp"
         android:layout_height="67dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:background="@color/common_google_signin_btn_text_dark_disabled"
         android:elevation="0dp"
-        android:onClick="sendMessage"
+        android:onClick="startMenu"
         android:text="See Menu"
         android:textSize="30sp"
         android:typeface="serif"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.876"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.89" />
 </android.support.constraint.ConstraintLayout>
