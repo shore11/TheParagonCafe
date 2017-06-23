@@ -1,6 +1,8 @@
 package com.aaron.theparagoncafe;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.preference.PreferenceActivity;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +22,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.aaron.theparagoncafe.R.id.parent;
 
@@ -35,6 +40,9 @@ public class MenuActivity extends AppCompatActivity {
     // when items in the database change this can update the fields
     private ChildEventListener mChildEventListener;
 
+    public static boolean ready = false;
+    private int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MenuActivity", "Menu Activity started");
@@ -43,72 +51,118 @@ public class MenuActivity extends AppCompatActivity {
 
         String[] values = new String[] { "Soup", "Meat", "Crackers", "Ramen"};
 
-        final List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
         //list to hold Food as objects
-        final List<Food> foodList = new ArrayList<>();
+        final List<Food> fList = new ArrayList<>();
 
         final ListView listview = (ListView) findViewById(R.id.foodList);
-
+        List<String> bufferList = new ArrayList<>();
         // had to be made before putting items into list
         final ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 list);
 
-        list.add("SPECIALS");
-        // ADD MONDAY SPECIALS
-        Log.d("MenuActivity", "Starting pull from firebase");
-        DatabaseReference monday = database.getReference("specials/Monday");
-        getSpecials(monday, list, adapter, "MONDAY", 0);
 
-        // ADD TUESDAY SPECIALS
-        DatabaseReference tuesday = database.getReference("specials/Tuesday");
-        getSpecials(tuesday, list, adapter, "TUESDAY", 100);
+        //list.add("SPECIALS");
 
-        // ADD WEDNESDAY SPECIALS
-        DatabaseReference wednesday = database.getReference("specials/Wednesday");
-        getSpecials(wednesday, list, adapter, "WEDNESDAY", 1000);
+        DatabaseReference root = database.getReference();
 
-        // ADD THURSDAY SPECIALS
-        DatabaseReference thursday = database.getReference("specials/Thursday");
-        getSpecials(thursday, list, adapter, "THURSDAY", 100);
+        root.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // root node returns regular and specials
+                Map<String, Map<String, Map<String, List<String>>>> root = new HashMap<String, Map<String, Map<String, List<String>>>>();
+                //Map<String, DataSnapshot> specials = (Map<String, DataSnapshot>) root.get("specials").getValue();
+//                DataSnapshot monday = specials.get("Monday");
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                   // list.add(ds.getKey());
+                    root.put(ds.getKey(), new HashMap<String, Map<String, List<String>>>());
+                    for (DataSnapshot ds1 : ds.getChildren()){
+                      //  list.add(ds1.getKey());
+                        root.get(ds.getKey()).put(ds1.getKey(), new HashMap<String, List<String>>());
+                        for (DataSnapshot ds2 : ds1.getChildren()){
+                         //   list.add(ds2.getKey());
+                            if (ds2.getKey().equals("sides")){
+                                root.get(ds.getKey()).get(ds1.getKey()).put(ds2.getKey(),new ArrayList<String>());
+                                for (DataSnapshot ds3 : ds2.getChildren()){
+                             //       list.add(ds3.getKey());
+                                    root.get(ds.getKey()).get(ds1.getKey()).get(ds2.getKey()).add(ds3.getKey());
+                                }
+                            }
+                            else{
+                                root.get(ds.getKey()).get(ds1.getKey()).put(ds2.getKey(), null);
+                            }
+                        }
+                    }
+                }
+                list.add("Specials");
+                list.add("Monday");
+                for (String s : root.get("specials").get("Monday").keySet()){
+                    list.add(s);
+                }
+                list.add("Tuesday");
+                for (String s : root.get("specials").get("Tuesday").keySet()){
+                    list.add(s);
+                }
+                list.add("Wednesday");
+                for (String s : root.get("specials").get("Wednesday").keySet()){
+                    list.add(s);
+                }
+                list.add("Thursday");
+                for (String s : root.get("specials").get("Thursday").keySet()){
+                    list.add(s);
+                }
+                list.add("Friday");
+                for (String s : root.get("specials").get("Friday").keySet()){
+                    list.add(s);
+                }
+                list.add("Saturday");
+                for (String s : root.get("specials").get("Saturday").keySet()){
+                    list.add(s);
+                }
+                list.add("Menu");
+                list.add("BreakFast");
+                for (String s : root.get("regularFood").get("breakFast").keySet()){
+                    if (!s.equals("sides")) {
+                        list.add(s);
+                    }
+                }
+                // sides
+                list.add("BreakFast Sides");
+                for (String s : root.get("regularFood").get("breakFast").get("sides")){
+                    list.add(s);
+                }
+                list.add("Dinner");
+                for (String s : root.get("regularFood").get("dinner").keySet()){
+                    if (!s.equals("sides")) {
+                        list.add(s);
+                    }
+                }
+                // sides
+                list.add("Dinner Sides");
+                for (String s : root.get("regularFood").get("dinner").get("sides")){
+                    list.add(s);
+                }
+                adapter.notifyDataSetChanged();
 
-        //ADD FRIDAY SPECIALS
-        DatabaseReference friday = database.getReference("specials/Friday");
-        getSpecials(friday, list, adapter, "FRIDAY", 100);
-
-        // ADD SATURDAY SPECIALS
-        DatabaseReference saturday = database.getReference("specials/Saturday");
-        getSpecials(saturday, list, adapter, "SATURDAY", 100);
-
-        // ADD BREAKFAST ITEMS TO LIST
-        DatabaseReference breakFast = database.getReference("regularFood/breakFast");
-        getDatabaseInfo(breakFast, list, adapter, "BREAKFAST", 0);
-
-        // ADD SIDES TO LIST
-        DatabaseReference bSides = database.getReference("regularFood/breakFast/sides");
-        getDatabaseInfo(bSides, list, adapter, "BREAKFAST SIDES", 1000);
-
-        // ADD DINNER TO LIST
-        DatabaseReference dinner = database.getReference("regularFood/dinner");
-        getDatabaseInfo(dinner, list, adapter, "DINNER", 100);
-
-        // ADD SANDWICHES TO LIST
-        DatabaseReference sandwiches = database.getReference("regularFood/dinner/Sandwiches");
-        getDatabaseInfo(sandwiches, list, adapter, "SANDWICHES", 100);
-
-        // ADD DINNER SIDES
-        DatabaseReference dSides = database.getReference("regularFood/dinner/sides");
-        getDatabaseInfo(dSides, list, adapter, "DINNER SIDES", 100);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
         Log.d("MenuActivity", "Ended pull from firebase");
-
+//        finish();
+//        startActivity(getIntent());
+//        adapter.notifyDataSetChanged();
+//        listview.refreshDrawableState();
         listview.setAdapter(adapter);
+
 
         //This opens the food's information when you click on it
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                // if statements for non clickable
                 String selectedFromList = (String) (listview.getItemAtPosition(position));
                 Log.d(TAG, "making new intent for FoodActivity");
                 Intent intent = new Intent(MenuActivity.this, FoodActivity.class);
@@ -119,55 +173,11 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onStart(){
+        super.onStart();
 
-    // function to get the specials
-    void getSpecials (DatabaseReference dr, final List<String> list, final ArrayAdapter adapter, final String header, int wait){
-        try {
-            Thread.sleep(wait);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        dr.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                list.add(header);
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    String type = ds.getKey();
-                    list.add(type);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
 
-    // function to handle retrieving database from any node
-    void getDatabaseInfo(DatabaseReference dr, final List<String> list, final ArrayAdapter adapter, final String first, int wait) {
-        try {
-            Thread.sleep(wait);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        dr.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                list.add(first);
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    //String food = ds.getKey();
-                    Food food = ds.getValue(Food.class);
-                    if (food.getName() != null) {
-                        list.add(food.getName());
-                    }
-//                    if (food != null){
-//                        foodList.add(food);
-//                    }
-                    // tell the adapter every time something is added so it can update
-                    adapter.notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
     }
 }
 

@@ -1,11 +1,13 @@
 package com.aaron.theparagoncafe;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,7 +17,14 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "Main Activity started");
         setContentView(R.layout.activity_main);
     }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Context context = getApplicationContext();
 
+        Toast toast = Toast.makeText(context,"Enjoy", Toast.LENGTH_LONG);
+        toast.show();
+    }
 
     public void startMenu(View view) {
         Log.d("MainActivity", "Starting next activity");
