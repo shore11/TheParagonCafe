@@ -73,7 +73,11 @@ public class MenuActivity extends AppCompatActivity {
         //list to hold Food as objects
         final List<Food> fList = new ArrayList<>();
 
-        loadData();
+        loadData("TEST", "NULL VALUE");
+
+        for (int i = 0; i < list.size(); i++) {
+            loadData("Food", list.get(i));
+        }
 
         //get reference of the ExpandableListView
         simpleExpandableListView = (ExpandableListView) findViewById(R.id.simpleExpandableListView);
@@ -149,6 +153,7 @@ public class MenuActivity extends AppCompatActivity {
                 list.add("Specials");
                 list.add("Monday");
                 for (String s : root.get("specials").get("Monday").keySet()){
+                    //loadData("Specials", s);
                     list.add(s);
                 }
                 list.add("Tuesday");
@@ -243,17 +248,11 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     //load some initial data into out list
-    private void loadData(){
-
-        addProduct("Specials", "MEAT");
-        addProduct("Specials", "BEEF");
-        addProduct("Specials", "BACON");
+    private void loadData(String group, String name){
 
 
+        addProduct(group, name);
 
-        addProduct("Standard Menu", "Ham");
-        addProduct("Standard Menu", "Eggs");
-        addProduct("Standard Menu", "HeshBrownies");
 
     }
 
