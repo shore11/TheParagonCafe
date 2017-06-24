@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,27 +46,75 @@ public class MenuActivity extends AppCompatActivity {
     public static boolean ready = false;
     private int count = 0;
 
+    //Create our expandableList
+    private LinkedHashMap<String, GroupInfo> subjects = new LinkedHashMap<String, GroupInfo>();
+    private ArrayList<GroupInfo> deptList = new ArrayList<GroupInfo>();
+
+    private CustomAdapter listAdapter;
+    private ExpandableListView simpleExpandableListView;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MenuActivity", "Menu Activity started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        String[] values = new String[] { "Soup", "Meat", "Crackers", "Ramen"};
+       /* String[] values = new String[] { "Soup", "Meat", "Crackers", "Ramen"};
 
         final List<String> list = new ArrayList<>();
         //list to hold Food as objects
         final List<Food> fList = new ArrayList<>();
 
-        final ListView listview = (ListView) findViewById(R.id.foodList);
-        List<String> bufferList = new ArrayList<>();
-        // had to be made before putting items into list
-        final ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                list);
+       */
+        final List<String> list = new ArrayList<>();
+        //list to hold Food as objects
+        final List<Food> fList = new ArrayList<>();
+
+        loadData();
+
+        //get reference of the ExpandableListView
+        simpleExpandableListView = (ExpandableListView) findViewById(R.id.simpleExpandableListView);
+        // create the adapter by passing your ArrayList data
+        listAdapter = new CustomAdapter(MenuActivity.this, deptList);
+        // attach the adapter to the expandable list view
+        simpleExpandableListView.setAdapter(listAdapter);
+
+        //expand all the Groups
+        //expandAll();
+
+        // setOnChildClickListener listener for child row click
+        simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                //get the group header
+                GroupInfo headerInfo = deptList.get(groupPosition);
+                //get the child info
+                ChildInfo detailInfo =  headerInfo.getProductList().get(childPosition);
+                //display it or do something with it
+                Toast.makeText(getBaseContext(), " Clicked on :: " + headerInfo.getName()
+                        + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
+        // setOnGroupClickListener listener for group heading click
+        simpleExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                //get the group header
+                GroupInfo headerInfo = deptList.get(groupPosition);
+                //display it or do something with it
+                Toast.makeText(getBaseContext(), " Header is :: " + headerInfo.getName(),
+                        Toast.LENGTH_LONG).show();
+
+                return false;
+            }
+        });
 
 
-        //list.add("SPECIALS");
+
 
         DatabaseReference root = database.getReference();
 
@@ -143,7 +194,7 @@ public class MenuActivity extends AppCompatActivity {
                 for (String s : root.get("regularFood").get("dinner").get("sides")){
                     list.add(s);
                 }
-                adapter.notifyDataSetChanged();
+
 
             }
             @Override
@@ -151,15 +202,9 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         Log.d("MenuActivity", "Ended pull from firebase");
-//        finish();
-//        startActivity(getIntent());
-//        adapter.notifyDataSetChanged();
-//        listview.refreshDrawableState();
-        listview.setAdapter(adapter);
-
 
         //This opens the food's information when you click on it
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // if statements for non clickable
@@ -171,7 +216,7 @@ public class MenuActivity extends AppCompatActivity {
                 Log.d(TAG, "putExtra: " +selectedFromList + " applied, attempting to start FoodActivity");
                 startActivity(intent);
             }
-        });
+        });*/
     }
     @Override
     protected void onStart(){
@@ -179,5 +224,76 @@ public class MenuActivity extends AppCompatActivity {
 
 
     }
+
+
+    //method to expand all groups
+    private void expandAll() {
+        int count = listAdapter.getGroupCount();
+        for (int i = 0; i < count; i++){
+            simpleExpandableListView.expandGroup(i);
+        }
+    }
+
+    //method to collapse all groups
+    private void collapseAll() {
+        int count = listAdapter.getGroupCount();
+        for (int i = 0; i < count; i++){
+            simpleExpandableListView.collapseGroup(i);
+        }
+    }
+
+    //load some initial data into out list
+    private void loadData(){
+
+        addProduct("Specials", "MEAT");
+        addProduct("Specials", "BEEF");
+        addProduct("Specials", "BACON");
+
+
+
+        addProduct("Standard Menu", "Ham");
+        addProduct("Standard Menu", "Eggs");
+        addProduct("Standard Menu", "HeshBrownies");
+
+    }
+
+
+
+    //here we maintain our products in various departments
+    private int addProduct(String department, String product){
+
+        int groupPosition = 0;
+
+        //check the hash map if the group already exists
+        GroupInfo headerInfo = subjects.get(department);
+        //add the group if doesn't exists
+        if(headerInfo == null){
+            headerInfo = new GroupInfo();
+            headerInfo.setName(department);
+            subjects.put(department, headerInfo);
+            deptList.add(headerInfo);
+        }
+
+        //get the children for the group
+        ArrayList<ChildInfo> productList = headerInfo.getProductList();
+        //size of the children list
+        int listSize = productList.size();
+        //add to the counter
+        listSize++;
+
+        //create a new child and add that to the group
+        ChildInfo detailInfo = new ChildInfo();
+        detailInfo.setSequence(String.valueOf(listSize));
+        detailInfo.setName(product);
+        productList.add(detailInfo);
+        headerInfo.setProductList(productList);
+
+        //find the group position inside the list
+        groupPosition = deptList.indexOf(headerInfo);
+        return groupPosition;
+    }
+
+
+
 }
 
