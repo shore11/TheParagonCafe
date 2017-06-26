@@ -73,11 +73,6 @@ public class MenuActivity extends AppCompatActivity {
         //list to hold Food as objects
         final List<Food> fList = new ArrayList<>();
 
-        loadData("TEST", "NULL VALUE");
-
-        for (int i = 0; i < list.size(); i++) {
-            loadData("Food", list.get(i));
-        }
 
         //get reference of the ExpandableListView
         simpleExpandableListView = (ExpandableListView) findViewById(R.id.simpleExpandableListView);
@@ -153,23 +148,32 @@ public class MenuActivity extends AppCompatActivity {
                 list.add("Specials");
                 list.add("Monday");
                 for (String s : root.get("specials").get("Monday").keySet()){
-                    //loadData("Specials", s);
+                    loadData("Monday Specials", s);
+                    listAdapter.notifyDataSetChanged();
                     list.add(s);
                 }
                 list.add("Tuesday");
                 for (String s : root.get("specials").get("Tuesday").keySet()){
+                    loadData("Tuesday Specials", s);
+                    listAdapter.notifyDataSetChanged();
                     list.add(s);
                 }
                 list.add("Wednesday");
                 for (String s : root.get("specials").get("Wednesday").keySet()){
+                    loadData("Wednesday Specials", s);
+                    listAdapter.notifyDataSetChanged();
                     list.add(s);
                 }
                 list.add("Thursday");
                 for (String s : root.get("specials").get("Thursday").keySet()){
+                    loadData("Thursday Specials", s);
+                    listAdapter.notifyDataSetChanged();
                     list.add(s);
                 }
                 list.add("Friday");
                 for (String s : root.get("specials").get("Friday").keySet()){
+                    loadData("Friday Specials", s);
+                    listAdapter.notifyDataSetChanged();
                     list.add(s);
                 }
                 list.add("Saturday");
