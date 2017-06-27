@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -296,7 +297,22 @@ public class MenuActivity extends AppCompatActivity {
         return groupPosition;
     }
 
-
+    public void sendComment(View view) {
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String comment = editText.getText().toString();
+        if (!comment.equals("")) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"twin11shore@gmail.com"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Paragon Cafe Comment");
+            intent.putExtra(Intent.EXTRA_TEXT   , comment);
+            try {
+                startActivity(Intent.createChooser(intent, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(MenuActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 }
 
