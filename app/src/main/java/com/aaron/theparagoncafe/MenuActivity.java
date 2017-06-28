@@ -297,6 +297,10 @@ public class MenuActivity extends AppCompatActivity {
         return groupPosition;
     }
 
+    /**
+     * Sends an email with the comment in it
+     * @param view
+     */
     public void sendComment(View view) {
         EditText editText = (EditText) findViewById(R.id.editText);
         String comment = editText.getText().toString();
@@ -312,6 +316,7 @@ public class MenuActivity extends AppCompatActivity {
                 Toast.makeText(MenuActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
             }
         }
+        editText.setText("");
     }
 
 }
