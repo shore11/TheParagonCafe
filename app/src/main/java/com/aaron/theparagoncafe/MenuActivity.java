@@ -307,7 +307,7 @@ public class MenuActivity extends AppCompatActivity {
         if (!comment.equals("")) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("message/rfc822");
-            intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"twin11shore@gmail.com"});
+            intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"jaredvbrown@gmail.com"});
             intent.putExtra(Intent.EXTRA_SUBJECT, "Paragon Cafe Comment");
             intent.putExtra(Intent.EXTRA_TEXT   , comment);
             try {
