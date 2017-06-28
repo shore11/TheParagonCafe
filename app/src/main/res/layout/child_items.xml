@@ -15,6 +15,7 @@
         android:id="@+id/childItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="15dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/sequence"
         android:textAppearance="?android:attr/textAppearanceMedium" />

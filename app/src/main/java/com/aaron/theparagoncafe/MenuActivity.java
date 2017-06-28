@@ -47,9 +47,6 @@ public class MenuActivity extends AppCompatActivity {
     // when items in the database change this can update the fields
     private ChildEventListener mChildEventListener;
 
-    public static boolean ready = false;
-    private int count = 0;
-
     //Create our expandableList
     private LinkedHashMap<String, GroupInfo> subjects = new LinkedHashMap<String, GroupInfo>();
     private ArrayList<GroupInfo> deptList = new ArrayList<GroupInfo>();
@@ -120,26 +117,33 @@ public class MenuActivity extends AppCompatActivity {
 
 
         DatabaseReference root = database.getReference();
-
+        /**
+         * <p>
+         *    This will loop through each node and collect its
+         *    Children in a map and the pattern continues down the nodes
+         *    The Children become keys and their cildren are put in a map
+         * </p>
+         * @param ValueEventListener to attach to the specific node
+         *
+         */
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // root node returns regular and specials
                 Map<String, Map<String, Map<String, List<String>>>> root = new HashMap<String, Map<String, Map<String, List<String>>>>();
-                //Map<String, DataSnapshot> specials = (Map<String, DataSnapshot>) root.get("specials").getValue();
-//                DataSnapshot monday = specials.get("Monday");
+
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                    // list.add(ds.getKey());
                     root.put(ds.getKey(), new HashMap<String, Map<String, List<String>>>());
                     for (DataSnapshot ds1 : ds.getChildren()){
-                      //  list.add(ds1.getKey());
+                        fList.add(ds1.getValue(Food.class));
                         root.get(ds.getKey()).put(ds1.getKey(), new HashMap<String, List<String>>());
                         for (DataSnapshot ds2 : ds1.getChildren()){
-                         //   list.add(ds2.getKey());
+                            fList.add(ds2.getValue(Food.class));
                             if (ds2.getKey().equals("sides")){
                                 root.get(ds.getKey()).get(ds1.getKey()).put(ds2.getKey(),new ArrayList<String>());
                                 for (DataSnapshot ds3 : ds2.getChildren()){
-                             //       list.add(ds3.getKey());
+                                    fList.add(ds3.getValue(Food.class));
                                     root.get(ds.getKey()).get(ds1.getKey()).get(ds2.getKey()).add(ds3.getKey());
                                 }
                             }
@@ -230,6 +234,11 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });*/
+       //Food food = getFood("Biscuits and Gravy");
+//        String s = fList.get(8).getName();
+//        if (s != null) {
+//            System.out.print(s);
+//        }
     }
     @Override
     protected void onStart(){
@@ -238,6 +247,31 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    //method to get Food as an object for price and other
+//    private Food getFood(String string){
+//        DatabaseReference ref = null;
+//        final Food[] food = new Food[1];
+//        if(string.equals("Biscuits and Gravy")) {
+//            ref = database.getReference("regularFood/breakFast/Biscuits and Gravy");
+//            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                 food[0] = dataSnapshot.getValue(Food.class);
+//                }
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {}
+//            });
+//
+//        }
+//            ref.removeEventListener((ValueEventListener) this);
+//            return food[0];
+//
+//    }
+
+    //search to know what reference to go to in database
+    private void search(){
+
+    }
 
     //method to expand all groups
     private void expandAll() {
