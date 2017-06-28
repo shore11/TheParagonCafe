@@ -8,6 +8,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+/**
+ * This is the FoodActivity that pops up when you click on a food
+ * item from the menu
+ *
+ *
+ * @author Cameron Lyman
+ */
 public class FoodActivity extends AppCompatActivity {
 
     private static final String TAG = "FoodActivity";
@@ -26,7 +33,7 @@ public class FoodActivity extends AppCompatActivity {
         mFoodPrice = (TextView) findViewById(R.id.foodPrice);
         mFoodTime = (TextView) findViewById(R.id.foodTime);
 
-        //THIS NEEDS TO BE CHANGED LATER TO PULL FROM DATABASE
+        //Setting the food information
         Log.d(TAG, "Attempting to set FoodName");
         mFoodName.setText(getIntent().getStringExtra("EXTRA_SELECTED_ITEM"));
     }
