@@ -33,7 +33,10 @@ import java.util.Objects;
 
 import static com.aaron.theparagoncafe.R.id.parent;
 
-
+/**
+ * Menu Activity
+ * Handles everything to do with the Menu
+ */
 public class MenuActivity extends AppCompatActivity {
 
     //TAG CONSTANT
