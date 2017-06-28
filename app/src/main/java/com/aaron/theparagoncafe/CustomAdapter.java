@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by Gourav on 08-03-2016.
+ * Imported by Jared on 6/20/2017
  */
 public class CustomAdapter extends BaseExpandableListAdapter {
 
