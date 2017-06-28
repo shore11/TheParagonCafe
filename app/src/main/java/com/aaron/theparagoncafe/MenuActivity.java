@@ -234,11 +234,7 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });*/
-       //Food food = getFood("Biscuits and Gravy");
-//        String s = fList.get(8).getName();
-//        if (s != null) {
-//            System.out.print(s);
-//        }
+
     }
     @Override
     protected void onStart(){
@@ -247,31 +243,6 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-    //method to get Food as an object for price and other
-//    private Food getFood(String string){
-//        DatabaseReference ref = null;
-//        final Food[] food = new Food[1];
-//        if(string.equals("Biscuits and Gravy")) {
-//            ref = database.getReference("regularFood/breakFast/Biscuits and Gravy");
-//            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                 food[0] = dataSnapshot.getValue(Food.class);
-//                }
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {}
-//            });
-//
-//        }
-//            ref.removeEventListener((ValueEventListener) this);
-//            return food[0];
-//
-//    }
-
-    //search to know what reference to go to in database
-    private void search(){
-
-    }
 
     //method to expand all groups
     private void expandAll() {
