@@ -44,8 +44,6 @@ public class MenuActivity extends AppCompatActivity {
 
     // variable to access items in the database
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    // when items in the database change this can update the fields
-    private ChildEventListener mChildEventListener;
 
     //Create our expandableList
     private LinkedHashMap<String, GroupInfo> subjects = new LinkedHashMap<String, GroupInfo>();
@@ -55,21 +53,12 @@ public class MenuActivity extends AppCompatActivity {
     private ExpandableListView simpleExpandableListView;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MenuActivity", "Menu Activity started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-       /* String[] values = new String[] { "Soup", "Meat", "Crackers", "Ramen"};
-
-        final List<String> list = new ArrayList<>();
-        //list to hold Food as objects
-        final List<Food> fList = new ArrayList<>();
-
-       */
         final List<String> list = new ArrayList<>();
         //list to hold Food as objects
         final List<Food> fList = new ArrayList<>();
@@ -113,9 +102,6 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         DatabaseReference root = database.getReference();
         /**
          * <p>
@@ -147,72 +133,70 @@ public class MenuActivity extends AppCompatActivity {
                                     root.get(ds.getKey()).get(ds1.getKey()).get(ds2.getKey()).add(ds3.getKey());
                                 }
                             }
+                            else if (ds2.getKey().equals("Sandwiches")){
+                                root.get(ds.getKey()).get(ds1.getKey()).put(ds2.getKey(),new ArrayList<String>());
+                                for (DataSnapshot ds3 : ds2.getChildren()){
+                                    fList.add(ds3.getValue(Food.class));
+                                    root.get(ds.getKey()).get(ds1.getKey()).get(ds2.getKey()).add(ds3.getKey());
+                                }
+                            }
                             else{
                                 root.get(ds.getKey()).get(ds1.getKey()).put(ds2.getKey(), null);
                             }
                         }
                     }
                 }
-                list.add("Specials");
-                list.add("Monday");
                 for (String s : root.get("specials").get("Monday").keySet()){
                     loadData("Monday Specials", s);
                     listAdapter.notifyDataSetChanged();
-                    list.add(s);
                 }
-                list.add("Tuesday");
                 for (String s : root.get("specials").get("Tuesday").keySet()){
                     loadData("Tuesday Specials", s);
                     listAdapter.notifyDataSetChanged();
-                    list.add(s);
                 }
-                list.add("Wednesday");
                 for (String s : root.get("specials").get("Wednesday").keySet()){
                     loadData("Wednesday Specials", s);
                     listAdapter.notifyDataSetChanged();
-                    list.add(s);
                 }
-                list.add("Thursday");
                 for (String s : root.get("specials").get("Thursday").keySet()){
                     loadData("Thursday Specials", s);
                     listAdapter.notifyDataSetChanged();
-                    list.add(s);
                 }
-                list.add("Friday");
                 for (String s : root.get("specials").get("Friday").keySet()){
                     loadData("Friday Specials", s);
                     listAdapter.notifyDataSetChanged();
-                    list.add(s);
                 }
-                list.add("Saturday");
                 for (String s : root.get("specials").get("Saturday").keySet()){
-                    list.add(s);
+                    loadData("Saturday Specials", s);
+                    listAdapter.notifyDataSetChanged();
                 }
-                list.add("Menu");
-                list.add("BreakFast");
                 for (String s : root.get("regularFood").get("breakFast").keySet()){
                     if (!s.equals("sides")) {
-                        list.add(s);
+                        loadData("Breakfast", s);
+                        listAdapter.notifyDataSetChanged();
                     }
                 }
                 // sides
-                list.add("BreakFast Sides");
                 for (String s : root.get("regularFood").get("breakFast").get("sides")){
-                    list.add(s);
+                    loadData("Breakfast Sides", s);
+                    listAdapter.notifyDataSetChanged();
                 }
-                list.add("Dinner");
                 for (String s : root.get("regularFood").get("dinner").keySet()){
-                    if (!s.equals("sides")) {
-                        list.add(s);
+                    if (!s.equals("sides") && !s.equals("Sandwiches")) {
+                        loadData("Dinner", s);
+                        listAdapter.notifyDataSetChanged();
                     }
                 }
-                // sides
-                list.add("Dinner Sides");
-                for (String s : root.get("regularFood").get("dinner").get("sides")){
-                    list.add(s);
+                for (String s : root.get("regularFood").get("dinner").get("Sandwiches")){
+                    loadData("Sandwiches", s);
+                    listAdapter.notifyDataSetChanged();
                 }
 
-
+                // sides
+                for (String s : root.get("regularFood").get("dinner").get("sides")){
+                    loadData("Dinner Sides", s);
+                    listAdapter.notifyDataSetChanged();
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
@@ -236,13 +220,6 @@ public class MenuActivity extends AppCompatActivity {
         });*/
 
     }
-    @Override
-    protected void onStart(){
-        super.onStart();
-
-
-    }
-
 
     //method to expand all groups
     private void expandAll() {

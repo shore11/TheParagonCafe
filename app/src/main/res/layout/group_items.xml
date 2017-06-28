@@ -8,7 +8,9 @@
         android:id="@+id/heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="40dp"
         android:textAlignment="gravity"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold" />
