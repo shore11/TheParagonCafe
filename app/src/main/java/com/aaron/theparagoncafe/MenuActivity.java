@@ -116,13 +116,13 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // root node returns regular and specials
-                Map<String, Map<String, Map<String, List<String>>>> root = new HashMap<String, Map<String, Map<String, List<String>>>>();
+                Map<String, Map<String, Map<String, List<String>>>> root = new HashMap<>();
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                    // list.add(ds.getKey());
                     root.put(ds.getKey(), new HashMap<String, Map<String, List<String>>>());
                     for (DataSnapshot ds1 : ds.getChildren()){
-                        fList.add(ds1.getValue(Food.class));
+                        //fList.add(ds1.getValue(Food.class));
                         root.get(ds.getKey()).put(ds1.getKey(), new HashMap<String, List<String>>());
                         for (DataSnapshot ds2 : ds1.getChildren()){
                             fList.add(ds2.getValue(Food.class));
