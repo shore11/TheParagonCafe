@@ -85,6 +85,8 @@ public class MenuActivity extends AppCompatActivity {
                 //display it or do something with it
                 Toast.makeText(getBaseContext(), " Clicked on :: " + headerInfo.getName()
                         + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
+
+
                 return false;
             }
         });
