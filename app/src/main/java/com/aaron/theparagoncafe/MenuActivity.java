@@ -52,6 +52,8 @@ public class MenuActivity extends AppCompatActivity {
     private CustomAdapter listAdapter;
     private ExpandableListView simpleExpandableListView;
 
+    private Map<String, Food> foodMap = new HashMap<String, Food>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +200,9 @@ public class MenuActivity extends AppCompatActivity {
                 for (String s : root.get("regularFood").get("dinner").get("sides")){
                     loadData("Dinner Sides", s);
                     listAdapter.notifyDataSetChanged();
+                }
+                for (Food food : fList){
+                    foodMap.put(food.getName(), food);
                 }
             }
             @Override
