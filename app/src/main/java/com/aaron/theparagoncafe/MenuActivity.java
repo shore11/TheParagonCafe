@@ -61,7 +61,6 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        final List<String> list = new ArrayList<>();
         //list to hold Food as objects
         final List<Food> fList = new ArrayList<>();
 
@@ -76,6 +75,9 @@ public class MenuActivity extends AppCompatActivity {
         //expand all the Groups
         //expandAll();
 
+        // Intent for ChildClickListener
+        final Intent intent = new Intent(this, FoodActivity.class);
+
         // setOnChildClickListener listener for child row click
         simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -88,7 +90,7 @@ public class MenuActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), " Clicked on :: " + headerInfo.getName()
                         + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
 
-
+                startActivity(intent);
                 return false;
             }
         });
@@ -210,22 +212,6 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         Log.d("MenuActivity", "Ended pull from firebase");
-
-        //This opens the food's information when you click on it
-       /* listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // if statements for non clickable
-                String selectedFromList = (String) (listview.getItemAtPosition(position));
-                Log.d(TAG, "making new intent for FoodActivity");
-                Intent intent = new Intent(MenuActivity.this, FoodActivity.class);
-                Log.d(TAG, "intent for FoodActivity created, attempting to apply putExtra");
-                intent.putExtra("EXTRA_SELECTED_ITEM", selectedFromList);
-                Log.d(TAG, "putExtra: " +selectedFromList + " applied, attempting to start FoodActivity");
-                startActivity(intent);
-            }
-        });*/
-
     }
 
     //method to expand all groups
