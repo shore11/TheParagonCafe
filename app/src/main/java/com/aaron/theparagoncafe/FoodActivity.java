@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 /**
  * This is the FoodActivity that pops up when you click on a food
  * item from the menu
@@ -20,7 +22,7 @@ import android.widget.TextView;
 public class FoodActivity extends Activity {
 
     private static final String TAG = "FoodActivity";
-    private static final double SIZE_MULTIPLIER = 0.7;
+    private static final double SIZE_MULTIPLIER = 0.8;
 
     TextView mFoodName;
     TextView mFoodPrice;
@@ -42,13 +44,18 @@ public class FoodActivity extends Activity {
         getWindow().setLayout( (int)( width*SIZE_MULTIPLIER),
                 ((int) (height*SIZE_MULTIPLIER)) );
 
+
         mFoodName = (TextView) findViewById(R.id.foodName);
         mFoodPrice = (TextView) findViewById(R.id.foodPrice);
         mFoodTime = (TextView) findViewById(R.id.foodTime);
 
         //Setting the food information
         Log.d(TAG, "Attempting to set FoodName");
-        mFoodName.setText(getIntent().getStringExtra("EXTRA_SELECTED_ITEM"));
+        Float price = getIntent().getFloatExtra("EXTRA_PRICE", (float) 0.0);
+
+        mFoodName.setText(getIntent().getStringExtra("EXTRA_NAME"));
+        mFoodPrice.setText(price.toString());
+        mFoodTime.setText(getIntent().getStringExtra("EXTRA_TIME"));
     }
 
 

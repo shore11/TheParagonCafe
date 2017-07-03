@@ -81,6 +81,10 @@ public class MenuActivity extends AppCompatActivity {
         // Intent for ChildClickListener
         final Intent intent = new Intent(this, FoodActivity.class);
 
+        //DUMMY FOOD FOR TESTING. DELETE BEFORE RELEASE
+        final Food dummy = new Food("Spam", "I've never had Spam", (float).99, (float)0.99,
+                "9:00 am - 12:00 am", true, Day.Saturday);
+
         // setOnChildClickListener listener for child row click
         simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -93,6 +97,13 @@ public class MenuActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), " Clicked on :: " + headerInfo.getName()
                         + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
 
+
+                //WE NEED TO CHANGE DUMMY TO THE SELECTED FOOD ITEM
+                intent.putExtra("EXTRA_NAME", dummy.getName());
+                intent.putExtra("EXTRA_PRICE", dummy.getSinglePrice());
+                intent.putExtra("EXTRA_COMBO", dummy.getComboPrice());
+                intent.putExtra("EXTRA_TIME", dummy.getTime());
+                intent.putExtra("EXTRA_DESC", dummy.getDescription());
                 startActivity(intent);
                 return false;
             }
