@@ -44,6 +44,8 @@ public class MenuActivity extends AppCompatActivity {
 
     // variable to access items in the database
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private ValueEventListener valueEventListener;
+    private DatabaseReference root;
 
     //Create our expandableList
     private LinkedHashMap<String, GroupInfo> subjects = new LinkedHashMap<String, GroupInfo>();
@@ -61,6 +63,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        final List<String> list = new ArrayList<>();
         //list to hold Food as objects
         final List<Food> fList = new ArrayList<>();
 
@@ -108,7 +111,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference root = database.getReference();
+        root = database.getReference();
         /**
          * <p>
          *    This will loop through each node and collect its
@@ -118,7 +121,7 @@ public class MenuActivity extends AppCompatActivity {
          * @param ValueEventListener to attach to the specific node
          *
          */
-        root.addValueEventListener(new ValueEventListener() {
+        valueEventListener = root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // root node returns regular and specials
@@ -212,6 +215,13 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         Log.d("MenuActivity", "Ended pull from firebase");
+
+    }
+    // remove the listener when activity is done
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        root.removeEventListener(valueEventListener);
     }
 
     //method to expand all groups
