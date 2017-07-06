@@ -55,6 +55,7 @@ public class MenuActivity extends AppCompatActivity {
     private ExpandableListView simpleExpandableListView;
 
     private Map<String, Food> foodMap = new HashMap<String, Food>();
+    private Food current;
 
 
     @Override
@@ -81,10 +82,6 @@ public class MenuActivity extends AppCompatActivity {
         // Intent for ChildClickListener
         final Intent intent = new Intent(this, FoodActivity.class);
 
-        //DUMMY FOOD FOR TESTING. DELETE BEFORE RELEASE
-        final Food dummy = new Food("Spam", "I've never had Spam", (float).99, (float)0.99,
-                "9:00 am - 12:00 am", true, Day.Saturday);
-
         // setOnChildClickListener listener for child row click
         simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -93,17 +90,41 @@ public class MenuActivity extends AppCompatActivity {
                 GroupInfo headerInfo = deptList.get(groupPosition);
                 //get the child info
                 ChildInfo detailInfo =  headerInfo.getProductList().get(childPosition);
+                // Get the right food item and store it in current
+                switch(headerInfo.getName()) {
+                    case "Monday Specials":
+                        current = foodMap.get("Monday " + detailInfo.getName());
+                        break;
+                    case "Tuesday Specials":
+                        current = foodMap.get("Tuesday " + detailInfo.getName());
+                        break;
+                    case "Wednesday Specials":
+                        current = foodMap.get("Wednesday " + detailInfo.getName());
+                        break;
+                    case "Thursday Specials":
+                        current = foodMap.get("Thursday " + detailInfo.getName());
+                        break;
+                    case "Friday Specials":
+                        current = foodMap.get("Friday " + detailInfo.getName());
+                        break;
+                    case "Saturday Specials":
+                        current = foodMap.get("Saturday " + detailInfo.getName());
+                        break;
+                    default:
+                        current = foodMap.get(detailInfo.getName());
+                        break;
+                }
                 //display it or do something with it
                 Toast.makeText(getBaseContext(), " Clicked on :: " + headerInfo.getName()
                         + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
 
 
                 //WE NEED TO CHANGE DUMMY TO THE SELECTED FOOD ITEM
-                intent.putExtra("EXTRA_NAME", dummy.getName());
-                intent.putExtra("EXTRA_PRICE", dummy.getSinglePrice());
-                intent.putExtra("EXTRA_COMBO", dummy.getComboPrice());
-                intent.putExtra("EXTRA_TIME", dummy.getTime());
-                intent.putExtra("EXTRA_DESC", dummy.getDescription());
+                intent.putExtra("EXTRA_NAME", current.getName());
+                intent.putExtra("EXTRA_PRICE", current.getSinglePrice());
+                intent.putExtra("EXTRA_COMBO", current.getComboPrice());
+                intent.putExtra("EXTRA_TIME", current.getTime());
+                intent.putExtra("EXTRA_DESC", current.getDescription());
                 startActivity(intent);
                 return false;
             }
@@ -160,7 +181,7 @@ public class MenuActivity extends AppCompatActivity {
                                     root.get(ds.getKey()).get(ds1.getKey()).get(ds2.getKey()).add(ds3.getKey());
                                 }
                             }
-                            else{
+                            else {
                                 root.get(ds.getKey()).get(ds1.getKey()).put(ds2.getKey(), null);
                             }
                         }
