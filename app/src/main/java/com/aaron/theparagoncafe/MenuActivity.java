@@ -119,6 +119,7 @@ public class MenuActivity extends AppCompatActivity {
                         + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
 
 
+
                 //WE NEED TO CHANGE DUMMY TO THE SELECTED FOOD ITEM
                 intent.putExtra("EXTRA_NAME", current.getName());
                 intent.putExtra("EXTRA_PRICE", current.getSinglePrice());

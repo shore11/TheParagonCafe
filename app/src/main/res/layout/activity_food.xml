@@ -7,6 +7,16 @@
     tools:context="com.aaron.theparagoncafe.FoodActivity">
 
     <TextView
+        android:id="@+id/foodDesc"
+        android:layout_width="139dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foodTime" />
+
+    <TextView
         android:id="@+id/foodName"
         android:layout_width="139dp"
         android:layout_height="65dp"
@@ -31,7 +41,7 @@
         android:layout_width="139dp"
         android:layout_height="65dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="8dp"
         android:text="Price"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/foodPrice" />

@@ -22,11 +22,13 @@ import org.w3c.dom.Text;
 public class FoodActivity extends Activity {
 
     private static final String TAG = "FoodActivity";
-    private static final double SIZE_MULTIPLIER = 0.8;
+    private static final double WIDTH_MULT = 0.8;
+    private static final double HEIGHT_MULT = 0.3;
 
     TextView mFoodName;
     TextView mFoodPrice;
     TextView mFoodTime;
+    TextView mFoodDesc;
     PopupWindow popupWindow;
 
 
@@ -41,13 +43,14 @@ public class FoodActivity extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout( (int)( width*SIZE_MULTIPLIER),
-                ((int) (height*SIZE_MULTIPLIER)) );
+        getWindow().setLayout( (int)( width*WIDTH_MULT),
+                ((int) (height*HEIGHT_MULT)) );
 
 
         mFoodName = (TextView) findViewById(R.id.foodName);
         mFoodPrice = (TextView) findViewById(R.id.foodPrice);
         mFoodTime = (TextView) findViewById(R.id.foodTime);
+        mFoodDesc = (TextView) findViewById(R.id.foodDesc);
 
         //Setting the food information
         Log.d(TAG, "Attempting to set FoodName");
@@ -56,6 +59,7 @@ public class FoodActivity extends Activity {
         mFoodName.setText(getIntent().getStringExtra("EXTRA_NAME"));
         mFoodPrice.setText(price.toString());
         mFoodTime.setText(getIntent().getStringExtra("EXTRA_TIME"));
+        mFoodDesc.setText(getIntent().getStringExtra("EXTRA_DESC"));
     }
 
 
