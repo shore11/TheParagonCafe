@@ -167,7 +167,7 @@ public class MenuActivity extends AppCompatActivity {
                         //fList.add(ds1.getValue(Food.class));
                         root.get(ds.getKey()).put(ds1.getKey(), new HashMap<String, List<String>>());
                         for (DataSnapshot ds2 : ds1.getChildren()){
-                            fList.add(ds2.getValue(Food.class));
+                           // fList.add(ds2.getValue(Food.class));
                             if (ds2.getKey().equals("sides")){
                                 root.get(ds.getKey()).get(ds1.getKey()).put(ds2.getKey(),new ArrayList<String>());
                                 for (DataSnapshot ds3 : ds2.getChildren()){
@@ -184,6 +184,7 @@ public class MenuActivity extends AppCompatActivity {
                             }
                             else {
                                 root.get(ds.getKey()).get(ds1.getKey()).put(ds2.getKey(), null);
+                                fList.add(ds2.getValue(Food.class));
                             }
                         }
                     }
@@ -239,6 +240,7 @@ public class MenuActivity extends AppCompatActivity {
                     loadData("Dinner Sides", s);
                     listAdapter.notifyDataSetChanged();
                 }
+                //
                 for (Food food : fList){
                     foodMap.put(food.getName(), food);
                 }
@@ -275,11 +277,7 @@ public class MenuActivity extends AppCompatActivity {
 
     //load some initial data into out list
     private void loadData(String group, String name){
-
-
         addProduct(group, name);
-
-
     }
 
 

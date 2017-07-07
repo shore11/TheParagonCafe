@@ -23,7 +23,7 @@ public class FoodActivity extends Activity {
 
     private static final String TAG = "FoodActivity";
     private static final double WIDTH_MULT = 0.8;
-    private static final double HEIGHT_MULT = 0.3;
+    private static final double HEIGHT_MULT = 0.5;
 
     TextView mFoodName;
     TextView mFoodPrice;
