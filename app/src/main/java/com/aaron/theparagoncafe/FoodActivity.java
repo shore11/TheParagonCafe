@@ -1,13 +1,9 @@
 package com.aaron.theparagoncafe;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
