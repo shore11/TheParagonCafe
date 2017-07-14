@@ -57,7 +57,7 @@ public class FoodActivity extends Activity {
         Float price = getIntent().getFloatExtra("EXTRA_PRICE", (float) 0.0);
 
         mFoodName.setText(getIntent().getStringExtra("EXTRA_NAME"));
-        mFoodPrice.setText(price.toString());
+        mFoodPrice.setText("$" + price.toString());
         mFoodTime.setText(getIntent().getStringExtra("EXTRA_TIME"));
         mFoodDesc.setText(getIntent().getStringExtra("EXTRA_DESC"));
     }

@@ -115,8 +115,8 @@ public class MenuActivity extends AppCompatActivity {
                         break;
                 }
                 //display it or do something with it
-                Toast.makeText(getBaseContext(), " Clicked on :: " + headerInfo.getName()
-                        + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(getBaseContext(), " Clicked on :: " + headerInfo.getName()
+                     //   + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
 
 
 
@@ -137,8 +137,8 @@ public class MenuActivity extends AppCompatActivity {
                 //get the group header
                 GroupInfo headerInfo = deptList.get(groupPosition);
                 //display it or do something with it
-                Toast.makeText(getBaseContext(), " Header is :: " + headerInfo.getName(),
-                        Toast.LENGTH_LONG).show();
+               // Toast.makeText(getBaseContext(), " Header is :: " + headerInfo.getName(),
+                  //      Toast.LENGTH_LONG).show();
 
                 return false;
             }
@@ -189,61 +189,63 @@ public class MenuActivity extends AppCompatActivity {
                         }
                     }
                 }
-                for (String s : root.get("specials").get("Monday").keySet()){
-                    loadData("Monday Specials", s);
-                    listAdapter.notifyDataSetChanged();
-                }
-                for (String s : root.get("specials").get("Tuesday").keySet()){
-                    loadData("Tuesday Specials", s);
-                    listAdapter.notifyDataSetChanged();
-                }
-                for (String s : root.get("specials").get("Wednesday").keySet()){
-                    loadData("Wednesday Specials", s);
-                    listAdapter.notifyDataSetChanged();
-                }
-                for (String s : root.get("specials").get("Thursday").keySet()){
-                    loadData("Thursday Specials", s);
-                    listAdapter.notifyDataSetChanged();
-                }
-                for (String s : root.get("specials").get("Friday").keySet()){
-                    loadData("Friday Specials", s);
-                    listAdapter.notifyDataSetChanged();
-                }
-                for (String s : root.get("specials").get("Saturday").keySet()){
-                    loadData("Saturday Specials", s);
-                    listAdapter.notifyDataSetChanged();
-                }
+
                 for (String s : root.get("regularFood").get("breakFast").keySet()){
                     if (!s.equals("sides")) {
-                        loadData("Breakfast", s);
+                        loadData(" Breakfast", s);
                         listAdapter.notifyDataSetChanged();
                     }
                 }
                 // sides
                 for (String s : root.get("regularFood").get("breakFast").get("sides")){
-                    loadData("Breakfast Sides", s);
+                    loadData(" Breakfast Sides", s);
                     listAdapter.notifyDataSetChanged();
                 }
                 for (String s : root.get("regularFood").get("dinner").keySet()){
                     if (!s.equals("sides") && !s.equals("Sandwiches")) {
-                        loadData("Dinner", s);
+                        loadData(" Dinner", s);
                         listAdapter.notifyDataSetChanged();
                     }
                 }
                 for (String s : root.get("regularFood").get("dinner").get("Sandwiches")){
-                    loadData("Sandwiches", s);
+                    loadData(" Sandwiches", s);
                     listAdapter.notifyDataSetChanged();
                 }
 
                 // sides
                 for (String s : root.get("regularFood").get("dinner").get("sides")){
-                    loadData("Dinner Sides", s);
+                    loadData(" Dinner Sides", s);
                     listAdapter.notifyDataSetChanged();
                 }
                 //
+                for (String s : root.get("specials").get("Monday").keySet()){
+                    loadData(" Monday Specials", s);
+                    listAdapter.notifyDataSetChanged();
+                }
+                for (String s : root.get("specials").get("Tuesday").keySet()){
+                    loadData(" Tuesday Specials", s);
+                    listAdapter.notifyDataSetChanged();
+                }
+                for (String s : root.get("specials").get("Wednesday").keySet()){
+                    loadData(" Wednesday Specials", s);
+                    listAdapter.notifyDataSetChanged();
+                }
+                for (String s : root.get("specials").get("Thursday").keySet()){
+                    loadData(" Thursday Specials", s);
+                    listAdapter.notifyDataSetChanged();
+                }
+                for (String s : root.get("specials").get("Friday").keySet()){
+                    loadData(" Friday Specials", s);
+                    listAdapter.notifyDataSetChanged();
+                }
+                for (String s : root.get("specials").get("Saturday").keySet()){
+                    loadData(" Saturday Specials", s);
+                    listAdapter.notifyDataSetChanged();
+                }
                 for (Food food : fList){
                     foodMap.put(food.getName(), food);
                 }
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
